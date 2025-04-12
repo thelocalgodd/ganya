@@ -6,62 +6,59 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
 const Chart = () => {
   const data = useMemo(
     () => [
-      { month: "January", amount: 2500 },
-      { month: "February", amount: 1030 },
-      { month: "March", amount: 3000 },
-      { month: "April", amount: 4000 },
-      { month: "May", amount: 8000 },
-      { month: "June", amount: 1190 },
-      { month: "July", amount: 200 },
-      { month: "August", amount: 200 },
-      { month: "September", amount: 300 },
-      { month: "October", amount: 5000 },
-      { month: "November", amount: 20 },
-      { month: "December", amount: 3500 },
+      { month: "1", amount: 2500 },
+      { month: "2", amount: 1030 },
+      { month: "3", amount: 3000 },
+      { month: "4", amount: 4000 },
+      { month: "5", amount: 1500 },
+      { month: "6", amount: 800 },
+      { month: "7", amount: 1200 },
+      { month: "8", amount: 500 },
+      { month: "9", amount: 3000 },
+      { month: "10", amount: 2000 },
+      { month: "11", amount: 1500 },
+      { month: "12", amount: 3500 },
     ],
     []
   );
 
   return (
-    <div
-      style={{
-        backgroundColor: "#f3f4f6",
-        paddingRight: "5px",
-        paddingLeft: "5px",
-        paddingTop: "10px",
-        height: "430px", // Explicit height
-        width: "100%",
-        borderRadius: "8px",
-      }}
-    >
-      <p className="flex justify-center w-fit mx-auto px-8 mb-4 font-semibold">
-        Overview
-      </p>
-      <ResponsiveContainer width="90%" height={400}>
-        {" "}
+    <div className="border border-gray-200 rounded-lg flex flex-col gap-2 w-full">
+      <div className="px-2 py-1 bg-gray-100 rounded-t-lg flex justify-between items-center">
+        <p className="font-semibold">Monthly Overview</p>
+        <p>
+          {new Date().toLocaleString("default", {
+            month: "long",
+            year: "numeric",
+          })}{" "}
+        </p>
+      </div>
+      <ResponsiveContainer width="98%" height={340}>
         <LineChart
           data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 30 }}
+          margin={{ top: 20, right: 0, left: 0, bottom: 10 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" angle={-45} textAnchor="end" height={60} />
-          <YAxis />
+          <CartesianGrid
+            vertical={true}
+            strokeDasharray="3 3"
+            stroke="rgba(0,0,0,0.1)"
+            horizontal={false}
+          />
+          <XAxis dataKey="month" tick={{ fill: "rgba(0,0,0,0.5)" }} stroke="" />
+          <YAxis tick={{ fill: "rgba(0,0,0,0.5)" }} stroke="" />
           <Tooltip />
-          <Legend />
           <Line
             type="monotone"
             dataKey="amount"
-            stroke="steelblue"
-            strokeWidth={2}
-            dot={{ r: 2 }}
-            activeDot={{ r: 8 }}
+            stroke="rgba(0,0,0,0.2)"
+            strokeWidth={1}
+            dot={{ fill: "#000", r: 2 }}
           />
         </LineChart>
       </ResponsiveContainer>

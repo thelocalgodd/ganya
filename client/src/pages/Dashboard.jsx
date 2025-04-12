@@ -11,7 +11,8 @@ function Dashboard() {
   let time = new Date().now;
 
   return (
-    <main className="mx-4">
+    <main className="mx-4 md:mx-auto md:w-[850px]">
+      <AddNewData />
       <Toaster richColors closeButton={false} duration={2000} />
       <header>
         <div className="flex justify-between items-center mt-4">
@@ -35,17 +36,6 @@ function Dashboard() {
             ? "Good Afternoon " + "Vincent!"
             : "Good Evening " + "Vincent!"}
         </p>
-        {/* add new data */}
-
-        <div>
-          <button
-            onClick={() => {}}
-            className="bg-blue-400 font-semibold text-white px-8 py-1 rounded-lg hover:bg-blue-500 transition duration-300 ease-in-out mt-3"
-          >
-            Add New Data
-          </button>
-        </div>
-        <AddNewData />
       </section>
 
       <section className="grid grid-cols-2 gap-x-2 mt-4">
@@ -119,8 +109,7 @@ function Dashboard() {
       <footer className="pb-4">
         <div className="flex justify-between items-center mt-16"></div>
         <p className="text-gray-400 text-sm">
-          © {new Date().getFullYear()} ganya \\ no rights reserved. \\ created
-          by{" "}
+          © {new Date().getFullYear()}{" "}
           <a
             className="underline text-red-400"
             href="https://github.com/thelocalgodd"

@@ -2,7 +2,7 @@ import React from "react";
 
 function Auth() {
   return (
-    <main className="mx-4">
+    <main className="mx-4 md:mx-auto md:w-[850px]">
       <header>
         <p className="text-xl font-bold text-gray-800 mt-4">
           ganya
@@ -38,9 +38,11 @@ function Auth() {
           </button>
         </form>
 
-        <button className="bg-gray-200 font-semibold text-gray-600 px-8 py-1 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out mt-3">
-          Continue with Google
-        </button>
+        <div className="mt-2 gap-2 flex flex-col w-1/2">
+          <button className="bg-gray-200 border border-gray-300 font-semibold text-gray-600 px-8 py-1 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out mt-8">
+            Continue with Google
+          </button>
+        </div>
       </section>
     </main>
   );
