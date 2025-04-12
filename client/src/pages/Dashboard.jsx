@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import {
   ChevronDoubleDownIcon,
@@ -6,18 +6,54 @@ import {
 } from "@heroicons/react/24/solid";
 import Chart from "../components/Chart";
 import AddNewData from "../components/AddNewData";
+import Transaction from "../components/Transaction";
+import Card from "../components/Card";
+
+import { animate, createScope, createSpring, createDraggable } from "animejs";
 
 function Dashboard() {
-  let time = new Date().now;
+  let time = new Date().getHours();
+
+  const root = useRef(null);
+  const scope = useRef(null);
+
+  useEffect(() => {
+    scope.current = createScope({ root }).add((scope) => {
+      animate(".logo", {
+        scale: [
+          { to: 1.25, ease: "inOut(4)", duration: 1000 },
+          { to: 1, ease: createSpring({ stiffness: 100 }) },
+        ],
+        loop: true,
+        loopDelay: 250,
+      });
+
+      createDraggable(".logo", {
+        container: [0, 0, 0, 0],
+        releaseEase: createSpring({ stiffness: 500 }),
+      });
+
+      // Register function methods to be used outside the useEffect
+      scope.add("rotateLogo", (i) => {
+        animate(".logo", {
+          rotate: i * 360,
+          ease: "out(4)",
+          duration: 1500,
+        });
+      });
+    });
+
+    return () => scope.current.revert();
+  }, []);
 
   return (
-    <main className="mx-4 md:mx-auto md:w-[850px]">
+    <main ref={root} className="mx-4 md:mx-auto md:w-[850px]">
       <AddNewData />
       <Toaster richColors closeButton={false} duration={2000} />
       <header>
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center gap-2">
-            <p className="text-xl font-bold text-gray-800">
+            <p className="logo text-xl font-bold text-gray-800">
               ganya
               <span className="text-zinc-400">.</span>
             </p>{" "}
@@ -30,20 +66,21 @@ function Dashboard() {
 
       <section>
         <p className="text-xl font-semibold mt-8">
-          {time === 0
-            ? "Good Morning " + "Vincent!"
-            : time > 0 && time < 12
-            ? "Good Afternoon " + "Vincent!"
-            : "Good Evening " + "Vincent!"}
+          {time >= 0 && time < 12
+            ? "Good Morning "
+            : time > 12 && time < 16
+            ? "Good Afternoon "
+            : "Good Evening "}
+          <span className="text-blue-500">Vincent!</span>
         </p>
       </section>
 
-      <section className="grid grid-cols-2 gap-x-2 mt-4">
+      <section className="grid grid-cols-2 gap-x-2 mt-8">
         <div className="border border-gray-200 rounded-lg mt-2 w-full flex flex-col gap-2">
           <p className="font-semibold px-2 py-1 bg-gray-100 rounded-t-lg">
-            Cash Flow
+            Transaction Volume{" "}
           </p>
-          <div className="px-2 pb-2 flex flex-col items-start font-semibold rounded-b-lg text-gray-600 flex justify-between items-center">
+          <div className="px-2 pb-2 flex flex-col items-start font-semibold rounded-b-lg text-gray-600 justify-between">
             <p className="flex items-center justify-between text-gray-800 w-full">
               GHC 5,200.25
             </p>
@@ -57,12 +94,14 @@ function Dashboard() {
           </div>
         </div>
         <Card
+          color="bg-green-100"
           title="Total Income"
           amount={28900}
           increase={true}
           percentage={8}
         />
         <Card
+          color="bg-red-100"
           title="Total Expenses"
           amount={19200}
           increase={false}
@@ -72,7 +111,7 @@ function Dashboard() {
           <p className="font-semibold px-2 py-1 bg-gray-100 rounded-t-lg">
             Total Transactions{" "}
           </p>
-          <div className="px-2 pb-2 flex flex-col items-start font-semibold rounded-b-lg text-gray-600 flex justify-between items-center">
+          <div className="px-2 pb-2 flex flex-col items-start font-semibold rounded-b-lg text-gray-600 justify-between">
             <p className="flex items-center justify-between text-gray-800 w-full">
               28{" "}
             </p>
@@ -84,6 +123,26 @@ function Dashboard() {
               </span>
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="mt-2 border border-gray-200 rounded-lg w-full flex flex-col gap-2">
+        <p className="font-semibold px-2 py-1 bg-gray-100 rounded-t-lg">
+          Recent Transactions
+        </p>
+
+        <div className="mx-2 flex flex-col gap-1 overflow-y-auto max-h-40">
+          <Transaction amount={200} expense title={"Data Bundle"} />
+          <Transaction amount={1000} expense title={"Rent"} />
+          <Transaction amount={500} expense title={"Groceries"} />
+          <Transaction amount={200} expense title={"Transport"} />
+          <Transaction amount={500} expense title={"Food"} />
+          <Transaction amount={200} expense title={"Utilities"} />
+          <Transaction amount={100} expense title={"Entertainment"} />
+          <Transaction amount={200} expense title={"Subscriptions"} />
+          <Transaction amount={500} expense title={"Insurance"} />
+          <Transaction amount={200} expense title={"Clothing"} />
+          <Transaction amount={19000} title={"Salary"} />
         </div>
       </section>
 
@@ -108,7 +167,7 @@ function Dashboard() {
 
       <footer className="pb-4">
         <div className="flex justify-between items-center mt-16"></div>
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-400 text-xs">
           © {new Date().getFullYear()}{" "}
           <a
             className="underline text-red-400"
@@ -122,36 +181,5 @@ function Dashboard() {
     </main>
   );
 }
-
-const Card = ({
-  title,
-  amount,
-  increase = true,
-  percentage,
-  timeframe = "Last 30 Days",
-}) => {
-  return (
-    <div className="border border-gray-200 rounded-lg w-full flex flex-col gap-2 mt-2">
-      <p className="font-semibold px-2 py-1 bg-gray-100 rounded-t-lg">
-        {title}
-      </p>
-      <div className="px-2 pb-2 flex flex-col items-start font-semibold rounded-b-lg text-gray-600 flex justify-between items-center">
-        <p className="flex items-center justify-between text-gray-800 w-full">
-          GHC {amount.toFixed(2)}
-        </p>
-
-        <p className={`${increase ? "text-green-500" : "text-red-500"} mt-4`}>
-          {increase ? (
-            <ChevronDoubleUpIcon className="w-4 h-4 inline-block" />
-          ) : (
-            <ChevronDoubleDownIcon className="w-4 h-4 inline-block" />
-          )}{" "}
-          {increase ? "+" : "-" + percentage + "%"}{" "}
-          <span className="text-gray-400 font-normal text-sm">{timeframe}</span>
-        </p>
-      </div>
-    </div>
-  );
-};
 
 export default Dashboard;
