@@ -33,7 +33,7 @@ function Dashboard() {
         releaseEase: createSpring({ stiffness: 500 }),
       });
 
-      // Register function methods to be used outside the useEffect
+      // Register function methods to be used outside the useEffect.
       scope.add("rotateLogo", (i) => {
         animate(".logo", {
           rotate: i * 360,
