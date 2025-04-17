@@ -47,6 +47,10 @@ export default function AddNewData() {
     }, 1500);
   };
 
+  const handleSwitchTransactionType = () => {
+    setIsExpense(!isExpense);
+  };
+
   return (
     <div className="fixed bottom-4 right-4">
       {!isExpanded ? (
@@ -78,31 +82,26 @@ export default function AddNewData() {
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="select-none">
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className=" flex items-center gap-2  justtext-sm font-medium text-gray-700 mb-1">
                     Transaction Type
+                    <p className="text-xs text-zinc-400">tap to switch</p>
                   </label>
                   <div className="flex gap-4">
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        checked={isExpense}
-                        onChange={() => setIsExpense(true)}
-                        className="h-4 w-4 text-blue-600"
-                      />
-                      <span className="ml-2">Expense</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        checked={!isExpense}
-                        onChange={() => setIsExpense(false)}
-                        className="h-4 w-4 text-blue-600"
-                      />
-                      <span className="ml-2">Income</span>
-                    </label>
+                    <div className="flex w-full justify-between items-center">
+                      <div
+                        className={`${
+                          isExpense
+                            ? "bg-red-200 text-red-400"
+                            : "bg-none rounded-l-md text-blue-500 border-blue-200 bg-blue-200"
+                        } px-2 flex justify-center font-semibold cursor-pointer rounded-md p-1 w-full`}
+                        onClick={handleSwitchTransactionType}
+                      >
+                        {isExpense ? "Expense" : "Income"}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
