@@ -33,6 +33,7 @@ const Chart = () => {
       <div className="px-2 py-1 bg-gray-100 rounded-t-lg flex justify-between items-center">
         <p className="font-semibold">Monthly Overview</p>
         <p>
+          <span className="mx-1 font-extrabold text-red-500">//</span>
           {new Date().toLocaleString("default", {
             month: "long",
             year: "numeric",

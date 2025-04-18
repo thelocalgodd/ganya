@@ -59,7 +59,11 @@ function Dashboard() {
             </p>{" "}
           </div>
           <div>
-            <div className="w-8 h-4 rounded-full bg-red-400 "></div>
+            <div className="w-8 h-8 rounded-full bg-red-400 flex justify-center items-center hover:bg-blue-500 transition duration-300 ease-in-out">
+              <p className="flex justify-center items-center w-full h-full font-bold text-white">
+                VK
+              </p>
+            </div>
           </div>
         </div>
       </header>
@@ -75,7 +79,7 @@ function Dashboard() {
         </p>
       </section>
 
-      <section className="grid grid-cols-2 gap-x-2 mt-8">
+      <section className="grid grid-cols-2 gap-x-2 mt-2">
         <div className="border border-gray-200 rounded-lg mt-2 w-full flex flex-col gap-2">
           <p className="font-semibold px-2 py-1 bg-gray-100 rounded-t-lg">
             Transaction Volume{" "}
