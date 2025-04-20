@@ -21,7 +21,7 @@ function Dashboard() {
     scope.current = createScope({ root }).add((scope) => {
       animate(".logo", {
         scale: [
-          { to: 1.25, ease: "inOut(4)", duration: 1000 },
+          { to: 1.05, ease: "inOut(2)", duration: 1000 },
           { to: 1, ease: createSpring({ stiffness: 100 }) },
         ],
         loop: true,
@@ -35,7 +35,7 @@ function Dashboard() {
 
       // Register function methods to be used outside the useEffect.
       scope.add("rotateLogo", (i) => {
-        animate(".logo", {
+        animate(".profile", {
           rotate: i * 360,
           ease: "out(4)",
           duration: 1500,
@@ -46,8 +46,15 @@ function Dashboard() {
     return () => scope.current.revert();
   }, []);
 
+  const [rotations, setRotations] = useState(0);
+  const handleClickOnProfile = () => {
+    let i = rotations + 1;
+    setRotations(i);
+    scope.current.methods.rotateLogo(i);
+  };
+
   return (
-    <main ref={root} className="mx-4 md:mx-auto md:w-[850px]">
+    <main ref={root} className="mx-4 md:mx-auto md:w-[800px]">
       <AddNewData />
       <Toaster richColors closeButton={false} duration={2000} />
       <header>
@@ -58,12 +65,20 @@ function Dashboard() {
               <span className="text-zinc-400">.</span>
             </p>{" "}
           </div>
-          <div>
-            <div className="w-8 h-8 rounded-full bg-red-400 flex justify-center items-center hover:bg-blue-500 transition duration-300 ease-in-out">
-              <p className="flex justify-center items-center w-full h-full font-bold text-white">
-                VK
-              </p>
-            </div>
+          <div
+            onClick={handleClickOnProfile}
+            onMouseEnter={() => {
+              animate(".profile", {
+                scale: 1.2,
+                duration: 500,
+                easing: "easeInOut",
+              });
+            }}
+            className="profile select-none cursor-pointer profile w-8 h-8 rounded-full bg-red-400 flex justify-center items-center hover:bg-blue-500 transition duration-300 ease-in-out"
+          >
+            <p className="flex justify-center items-center w-full h-full font-bold text-white">
+              VK
+            </p>
           </div>
         </div>
       </header>
@@ -100,14 +115,14 @@ function Dashboard() {
         <Card
           color="bg-green-100"
           title="Total Income"
-          amount={28900}
+          amount={308900}
           increase={true}
           percentage={8}
         />
         <Card
           color="bg-red-100"
           title="Total Expenses"
-          amount={19200}
+          amount={12200}
           increase={false}
           percentage={5}
         />
@@ -130,12 +145,12 @@ function Dashboard() {
         </div>
       </section>
 
-      <section className="mt-2 border border-gray-200 rounded-lg w-full flex flex-col gap-2">
-        <p className="font-semibold px-2 py-1 bg-gray-100 rounded-t-lg">
+      <section className="mt-2 border border-gray-200 rounded-lg w-full flex flex-col">
+        <p className="font-semibold px-2 py-1 bg-gray-100 border-b border-b-zinc-300 rounded-t-lg">
           Recent Transactions
         </p>
 
-        <div className="mx-2 flex flex-col gap-1 overflow-y-auto max-h-40">
+        <div className="ml-2 flex flex-col gap-1 py-1 overflow-y-scroll max-h-40">
           <Transaction amount={200} expense title={"Data Bundle"} />
           <Transaction amount={1000} expense title={"Rent"} />
           <Transaction amount={500} expense title={"Groceries"} />
@@ -145,8 +160,8 @@ function Dashboard() {
           <Transaction amount={100} expense title={"Entertainment"} />
           <Transaction amount={200} expense title={"Subscriptions"} />
           <Transaction amount={500} expense title={"Insurance"} />
-          <Transaction amount={200} expense title={"Clothing"} />
           <Transaction amount={19000} title={"Salary"} />
+          <Transaction amount={200} expense title={"Clothing"} />
         </div>
       </section>
 

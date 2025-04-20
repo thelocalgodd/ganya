@@ -7,6 +7,7 @@ import {
   TagIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 
 export default function AddNewData() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -40,11 +41,13 @@ export default function AddNewData() {
     console.log({ amount, description, category, date, isExpense });
 
     // Show success message briefly
-    setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);
       handleClose();
-    }, 1500);
+    }, 500);
+
+    // setShowSuccess(true);
+    toast.success(`${isExpense ? "Expense" : "Income"} of GHS${amount} added!`);
   };
 
   const handleSwitchTransactionType = () => {
@@ -52,7 +55,7 @@ export default function AddNewData() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4">
+    <div className="fixed bottom-4 right-4 z-50">
       {!isExpanded ? (
         <button
           onClick={handleExpand}
@@ -172,7 +175,7 @@ export default function AddNewData() {
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
                       required
-                      className="block w-full pl-10 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-2 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
                 </div>
