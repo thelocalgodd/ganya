@@ -65,6 +65,7 @@ const register = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error [Creating New User]",
+      error,
     });
   }
 };
@@ -76,14 +77,15 @@ const login = async (req, res) => {
     const user = await User.find({ email });
     if (user.length === 0) {
       return res.status(400).json({
-        message: "Invalid credentials",
+        userExists: false,
+        message: "User does not exist, please create an account.",
       });
     }
     const isMatch = await bcrypt.compare(password, user[0].password);
 
     if (!isMatch) {
       return res.status(400).json({
-        message: "Invalid credentials",
+        message: "Invalid credentials, please check your logins",
       });
     }
 
